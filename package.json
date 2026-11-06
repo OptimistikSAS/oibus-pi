@@ -1,6 +1,6 @@
 {
   "name": "@oibus/pi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Windows-only PI Data Archive driver for OIBus. Spawns and multiplexes connections over a bundled .NET Framework helper via a stdio JSON protocol. Contains no AVEVA file: the AF SDK is loaded at runtime from the PI AF Client installed on the machine. Not affiliated with or endorsed by AVEVA.",
   "license": "Apache-2.0",
   "author": "Optimistik SAS",
