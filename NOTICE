@@ -1,0 +1,13 @@
+@oibus/pi
+Copyright (c) 2026 Optimistik SAS
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This product is not affiliated with, sponsored by or endorsed by AVEVA Group Limited or its
+subsidiaries. AVEVA, PI System, PI AF and PI Data Archive are trademarks of AVEVA Group Limited or
+its subsidiaries; they are used here only to describe what this product connects to.
+
+This product contains no AVEVA software. It loads, at runtime, the AF SDK of the PI AF Client
+installed on the machine by its owner, under the owner's own agreement with AVEVA. Accessing PI data
+with a non-AVEVA program such as this one requires a PI System Access (PSA) licence (AVEVA Software
+Schedule PI System, section 3.3(b)(iv)). See README.md.

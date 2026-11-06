@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Windows-only helper spawned as a local child process by @oibus/pi's TypeScript driver (see
+    src/index.ts) and talked to over a newline-delimited JSON protocol on stdin/stdout. Reads PI
+    Data Archive values through the AF SDK.
+
+    No AVEVA file is referenced, bundled or shipped: the helper references nothing
+    from AVEVA at compile time. At runtime it loads the .NET Framework AF SDK (OSIsoft.AFSDK) from
+    the PI AF Client installed on the machine by its owner, and calls it by late binding (see
+    AfSdk.cs). This is why the helper targets .NET Framework 4.8: PI AF Client only installs the
+    .NET Framework flavour of the AF SDK. .NET Framework 4.8 is part of Windows, so no runtime is
+    bundled either.
+
+    Built for x64 (the AF SDK of PI AF Client is used from a 64-bit process): `npm run build:runtimes`
+    puts it into runtimes/win-x64/, which is what the npm package ships.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>OIBusPiWindows</AssemblyName>
+    <RootNamespace>OIBusPiWindows</RootNamespace>
+    <Product>OIBus PI Windows Helper</Product>
+    <Company>Optimistik SAS</Company>
+    <Copyright>Copyright (c) 2026 Optimistik SAS</Copyright>
+    <Description>Reads PI Data Archive values through the AF SDK of the PI AF Client installed on the machine. Contains no AVEVA code. Not affiliated with or endorsed by AVEVA.</Description>
+    <DebugType>none</DebugType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!-- No app.config: the helper has no binding redirect to declare. -->
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <GenerateSupportedRuntime>false</GenerateSupportedRuntime>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="node_modules/**;bin/**;obj/**" />
+    <None Remove="node_modules/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- .NET Framework reference assemblies (MIT), so that the helper builds anywhere, without the targeting pack. Build-time only. -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <!-- `dynamic` (late binding to the AF SDK) and JavaScriptSerializer: both part of .NET Framework. -->
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.Extensions" />
+  </ItemGroup>
+
+</Project>

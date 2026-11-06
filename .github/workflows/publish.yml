@@ -1,0 +1,46 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      id-token: write # required for npm Trusted Publishing (OIDC) — no NPM_TOKEN secret needed
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: package.json
+          # Writes an .npmrc pointing at the public npm registry. No NODE_AUTH_TOKEN needed —
+          # npm CLI >=11.5.1 exchanges this job's OIDC token (via the id-token: write permission
+          # above) for a short-lived publish credential, once Trusted Publishing is configured
+          # for this package on npmjs.com.
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      # The helper for Windows x64, built straight into runtimes/win-x64/ — exactly the layout resolvePiBinaryPath()
+      # expects, and what package.json's "files" ships. `npm run build:runtimes` locally does the same thing.
+      - name: Build the .NET helper
+        run: npm run build:runtimes
+
+      - name: Build the TypeScript package
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
+
+      - name: Publish to npm
+        run: npm publish --provenance

@@ -1,0 +1,58 @@
+{
+  "extends": [
+    "config:recommended",
+    ":semanticCommitTypeAll(chore)"
+  ],
+  "baseBranches": [
+    "main"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "minimumReleaseAge": "5 days",
+  "npmrc": "force=true",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 3am on Monday"
+    ]
+  },
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "node",
+        "npm"
+      ],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": [
+        "typescript"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor"
+      ],
+      "enabled": false
+    },
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "schedule": [
+        "before 3am on Monday"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "schedule": [
+        "at any time"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "@oibus/pi",
+  "version": "0.1.0",
+  "description": "Windows-only PI Data Archive driver for OIBus. Spawns and multiplexes connections over a bundled .NET Framework helper via a stdio JSON protocol. Contains no AVEVA file: the AF SDK is loaded at runtime from the PI AF Client installed on the machine. Not affiliated with or endorsed by AVEVA.",
+  "license": "Apache-2.0",
+  "author": "Optimistik SAS",
+  "homepage": "https://github.com/OptimistikSAS/oibus-pi#readme",
+  "bugs": "https://github.com/OptimistikSAS/oibus-pi/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OptimistikSAS/oibus-pi.git"
+  },
+  "keywords": [
+    "oibus",
+    "pi",
+    "historian",
+    "time-series",
+    "windows"
+  ],
+  "os": [
+    "win32"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "runtimes",
+    "NOTICE",
+    "THIRD-PARTY-NOTICES.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": "26.12.1",
+    "npm": "11.20.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:win-x64": "dotnet build PiWindows.csproj -c Release -o runtimes/win-x64",
+    "build:runtimes": "npm run build:win-x64",
+    "test": "node --import tsx --test src/**/*.spec.ts"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3"
+  }
+}
